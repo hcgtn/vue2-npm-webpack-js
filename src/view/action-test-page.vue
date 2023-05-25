@@ -17,6 +17,7 @@ export default {
     },
     methods:{
         act(){
+            this.$HttpTool.post('xxxx/',{name:'abc'});
             console.log('click action');
         }
     }
