@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/xxx",
+    "method": "post",
+    "result": {
+      "head": {
+        "returnCode": "000000"
+      },
+      "body": {
+        "list": [
+          {
+            "name": "a",
+            "age": 12
+          },
+          {
+            "name": "b",
+            "age": 13
+          },
+          {
+            "name": "c",
+            "age": 14
+          }
+        ]
+      }
+    }
+  }
+]
