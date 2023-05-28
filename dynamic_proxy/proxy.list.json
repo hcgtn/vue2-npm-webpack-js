@@ -1,0 +1,17 @@
+[
+  {
+    "name": "测试",
+    "ip": "http://localhost:4355/person-c",
+    "active": false
+  },
+  {
+    "name": "Person1",
+    "ip": "http://localhost:4355/person1",
+    "active": true
+  },
+  {
+    "name": "Person2",
+    "ip": "http://localhost:4355/person2",
+    "active": false
+  }
+]
