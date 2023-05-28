@@ -1,0 +1,14 @@
+[
+  {
+    "name": "test",
+    "ip": "http://localhost:4355/person-c"
+  },
+  {
+    "name": "person1",
+    "ip": "http://localhost:4355/person1"
+  },
+  {
+    "name": "person2",
+    "ip": "http://localhost:4355/person2"
+  }
+]

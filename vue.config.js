@@ -1,9 +1,10 @@
 
 const { defineConfig } = require('@vue/cli-service')
 const fs = require('fs');
-const createProxy = require('./dynamic_proxy');
-
-// import base_ip_config from '@/config/base_ip.js'
+// 服务端改ip配置
+// const createProxy = require('./dynamic_proxy');
+// 客户端改ip配置
+const proxyList = require('./src/config/proxy.list.json');
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: (config) => {
@@ -17,17 +18,24 @@ module.exports = defineConfig({
     proxy: {
       // 当我们本地访问带有/api的时候才会触发跨域
       '/api': {
-        // target: base_ip_config.apiconfig, // 要代理的地址
         target: 'http://localhost:4355/person1', // 要代理的地址
         changeOrigin: true, // 是否跨域,需要设置为true
         logLevel: 'debug',
         router: req => {
-          return createProxy().getActiveProxy().ip;
+          // 服务端改ip配置
+          // return createProxy().getActiveProxy().ip;
+          // 客户端改ip配置
+          const rexp = /\/(.+)\/api/g;
+          const env = rexp.exec(req.url)[1];
+          return proxyList.find(i=>i.name===env).ip;
         },
+        ws: true,
         // 路径重写
         pathRewrite: {
-          // 路径重写默认 localhost: xxx/api/abc => www.xxx.com/api/abc
-          '^/api': '' // 设置为 localhost: xxx/api/abc => www.xxx.com/abc
+          // 服务端改ip配置          
+          // '(.*)/api/': ''
+          // 客户端改ip配置
+          '(.*)/api/': '' // 设置为 localhost: xxx/api/abc => www.xxx.com/abc 支持正则匹配
         }
       }
     }

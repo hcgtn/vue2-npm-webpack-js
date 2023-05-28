@@ -2,12 +2,15 @@
     <div class="action-page">
         <h1>action-page</h1>
         <button @click="act">click me</button>
-        <!-- <button @click="changeAct">change name</button> -->
+        <select name="选择环境" id="x" @change="changeEnv">
+            <option value="test">测试</option>
+            <option value="person1">Person1</option>
+            <option value="person2">Person2</option>
+        </select>
     </div>
 </template>
   
 <script>
-// const createProxy = require('../../dynamic_proxy');
 export default {
     name: 'ActionTestPage',
     components: {
@@ -17,14 +20,14 @@ export default {
     },
     mounted() {
     },
-    methods:{
-        act(){
-            this.$HttpTool.post('xxx/',{name:'abc'});
+    methods: {
+        act() {
+            this.$HttpTool.post('xxx/', { name: 'abc' });
             console.log('click action');
         },
-        // changeAct(){
-        //     createProxy().changeActive('Person1');
-        // }
+        changeEnv($event) {
+            this.$HttpTool.changeBaseUrl($event.target.value);
+        },
     }
 }
 </script>
