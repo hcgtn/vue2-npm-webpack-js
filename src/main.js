@@ -4,14 +4,48 @@ import VueRouter from 'vue-router';
 import createRouter from './router';
 import HttpTool from '@/common/utils/http.tool';
 import env from '@/config/env.json';
-console.log("env>>>>",env);
+import ViewUI from 'view-design';
+import VXETable from 'vxe-table'
+
+import 'view-design/dist/styles/iview.css';
+import 'vxe-table/lib/style.css'
+
+Vue.use(ViewUI);
+Vue.use(VXETable);
 
 const router = createRouter();
 Vue.config.productionTip = false
 Vue.use(VueRouter);
+
 Vue.prototype.$HttpTool = HttpTool;
 Vue.prototype.$env = env;
+
 new Vue({
   router,
   render: h => h(App),
 }).$mount('#app')
+
+/**
+ * 解决 txe-table出现的绘制监听问题
+ * 一般没有设置width宽度的时候会出现这个问题
+ * 添加一个min-width/width会解决这个问题
+ */
+const debounce = (fn, delay) => {
+  let timer = null;
+  return function () {
+    let context = this;
+    let args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  }
+}
+
+const _ResizeObserver = window.ResizeObserver;
+window.ResizeObserver = class ResizeObserver extends _ResizeObserver {
+  constructor(callback) {
+    callback = debounce(callback, 16);
+    super(callback);
+  }
+}

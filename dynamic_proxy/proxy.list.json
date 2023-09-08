@@ -7,11 +7,21 @@
   {
     "name": "Person1",
     "ip": "http://localhost:4355/person1",
-    "active": true
+    "active": false
   },
   {
     "name": "Person2",
     "ip": "http://localhost:4355/person2",
     "active": false
+  },
+  {
+    "name": "mock收集服务",
+    "ip": "http://localhost:4355/mock",
+    "active": false
+  },
+  {
+    "name": "serve",
+    "ip": "http://localhost:4355/serve",
+    "active": true
   }
 ]

@@ -8,6 +8,7 @@
 <script>
 
 import SlideBar from '@/components/slide-bar.vue';
+
 export default {
   name: 'App',
   components: {
