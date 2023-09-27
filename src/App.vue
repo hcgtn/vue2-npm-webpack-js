@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <SlideBar />
-    <router-view></router-view>
+    <router-view class="view"></router-view>
   </div>
 </template>
 
@@ -31,5 +31,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   display: flex;
+}
+
+.view {
+  width: calc(100% - 200px);
+  height: 100%;
 }
 </style>

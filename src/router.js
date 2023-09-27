@@ -37,6 +37,11 @@ export default ()=>{
                 path:'/virtual',
                 name:'虚拟表格构建思路实验',
                 component:()=>import(/* webpackChunkName: "import-test" */'./view/VirtualTableComs/index.vue')
+            },
+            {
+                path:'/lazy-load',
+                name:'图片懒加载',
+                component:()=>import(/* webpackChunkName: "import-test" */'./view/lazy-load/index.vue')
             }
         ]
     })

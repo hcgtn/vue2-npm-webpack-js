@@ -6,12 +6,25 @@ import HttpTool from '@/common/utils/http.tool';
 import env from '@/config/env.json';
 import ViewUI from 'view-design';
 import VXETable from 'vxe-table'
+import VueLazyload from 'vue-lazyload'
 
 import 'view-design/dist/styles/iview.css';
 import 'vxe-table/lib/style.css'
 
 Vue.use(ViewUI);
 Vue.use(VXETable);
+// Vue.use(VueLazyload);
+// or with options 
+const loadimage = require('./assets/logo.png')
+const errorimage = require('./assets/logo.png')
+
+Vue.use(VueLazyload, {
+  preLoad: 1.3, // 预加载高度比例
+  error: errorimage,
+  loading: loadimage,
+  throttleWait:500, //节流
+  attempt: 1
+})
 
 const router = createRouter();
 Vue.config.productionTip = false
