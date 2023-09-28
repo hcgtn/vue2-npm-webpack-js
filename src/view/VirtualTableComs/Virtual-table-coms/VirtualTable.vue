@@ -181,24 +181,21 @@ export default {
         gt: 20,
         oSize: 0
       })
+    },
+    /**
+     * 外部筛选函数配置
+     * 适用于前端自己的筛选显示
+     * 外部要配置筛选调教
+     * 配合 outerFilterUpdate 对外api使用
+     */
+    filterGridOptionsDataMethod: {
+      type: Function,
+      default: () => true
     }
   },
   watch: {
     data(v) {
-      // 外部传入数据
-      /**
-       * 直接传入数据渲染时
-       * 数据变动,表格的数据重新刷新
-       * 如果外部传入的是数组，那就直接取
-       * 如果外部传入的非数组，就要依赖 getDataListFromBodyKeysStr 取值
-       */
-      const list = this.tableListData(v);
-      !this.frontPage && (this.gridOptions.data = list);
-      this.tablePage.total = list.length;
-      /**
-       * 如果是前端分页需要做数据处理
-       */
-      this.frontPage && this.seqDataMethod(v);
+      this.outerRequestDataTableInit(v);
     },
     columns: {
       handler(val) {
@@ -304,6 +301,59 @@ export default {
     // this.throwCurrentPageParams();
   },
   methods: {
+    outerRequestDataTableInit(v) {
+      // 外部传入数据
+      /**
+       * 直接传入数据渲染时
+       * 数据变动,表格的数据重新刷新
+       * 如果外部传入的是数组，那就直接取
+       * 如果外部传入的非数组，就要依赖 getDataListFromBodyKeysStr 取值
+       */
+      if (!v) return;
+      const list = this.tableListData(v);
+      !this.frontPage && (this.gridOptions.data = list);
+      this.tablePage.total = list.length;
+      /**
+       * 如果是前端分页需要做数据处理
+       */
+      this.frontPage && this.seqDataMethod(v);
+      this.throwCurrentPageParams();
+    },
+    interRequestDataTableInit() {
+      // 内部请求数据
+      /**
+       * 内部请求数据渲染
+       */
+      if (this.inerRequestData === null) return;
+      const list = this.tableListData(this.inerRequestData);
+      this.gridOptions.data = list;
+      if (this.frontPage) {
+        this.tablePage.total = list.length;
+        this.seqDataMethod(this.inerRequestData);
+      }
+      if (this.endPage) {
+        this.tablePage.total = getObjectByKeys(this.inerRequestData, splitStrByChar(this.getTotalFromBodyKeysStr)) || 0;
+      }
+      this.throwCurrentPageParams();
+    },
+    /**
+     * 对外API
+     * 当配置了 filterGridOptionsDataMethod 时
+     * 主动触发筛选数据
+     * 无论是内部请求还是外部请求，都不做请求，直接进行数据筛选
+     * 但一定要重置分页参数
+     */
+    outerFilterUpdate() {
+      this.resetTablePage();
+      if (this.getDataModal === 'inter_request_data') {
+        // 内部请求
+        this.interRequestDataTableInit();
+      } else {
+        // 外部请求
+        this.outerRequestDataTableInit(this.data);
+      }
+      this.$refs['vxe-grid'].updateData();
+    },
     tableCellEmpty,
     columnsInit() {
       /**
@@ -427,19 +477,7 @@ export default {
       try {
         const params = this.endPage ? this.pageRequestParams : this.otherParams;
         this.inerRequestData = await this.apiRequestPromiseFun(params);
-        // console.log('this.inerRequestData', this.inerRequestData)
-        const list = this.tableListData(this.inerRequestData);
-        this.gridOptions.data = list;
-        // console.log('list>>>>', list)
-        if (this.frontPage) {
-          this.tablePage.total = list.length;
-          this.seqDataMethod(this.inerRequestData);
-        }
-        if (this.endPage) {
-          this.tablePage.total = getObjectByKeys(this.inerRequestData, splitStrByChar(this.getTotalFromBodyKeysStr)) || 0;
-        }
-        // console.log('this.inerRequestData>>>>', this.inerRequestData)
-        this.throwCurrentPageParams();
+        this.interRequestDataTableInit();
       } catch (e) {
         this.resetTable();
         console.log(e);
@@ -455,7 +493,8 @@ export default {
       this.autoRequest && this.getDataModal === 'inter_request_data' && this.requestList();
     },
     tableListData(v) {
-      return Array.isArray(v) ? v : (getObjectByKeys(v, splitStrByChar(this.getDataListFromBodyKeysStr)) || []);
+      const originList = Array.isArray(v) ? v : (getObjectByKeys(v, splitStrByChar(this.getDataListFromBodyKeysStr)) || []);
+      return originList.filter(this.filterGridOptionsDataMethod);
     },
     resetTablePage(p = {}) {
       this.tablePage = {

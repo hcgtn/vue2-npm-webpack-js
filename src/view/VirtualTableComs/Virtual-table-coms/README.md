@@ -72,6 +72,7 @@
     <button @click="searchData">外部查询</button>
     <button @click="update">内部查询</button>
     <button @click="reset">重置</button>
+    <input type="text" v-model="searchText" />
 
     <!-- 1. 外部请求 非分页 -->
     <!-- <VirtualTable ref="virtualTable" :columns="columns" :data="dataList" getDataListFromBodyKeysStr="data" @change="tableChange">
@@ -129,8 +130,17 @@
     </VirtualTable> -->
 
     <!-- 10. 冻结列配置 fixed / 虚拟滚动配置 scrollX scrollY [已经默认开启] -->
-    <VirtualTable ref="virtualTable" :columns="columns" :apiRequestPromiseFun="tablePageListApi" endPage
+    <!-- <VirtualTable ref="virtualTable" :columns="columns" :apiRequestPromiseFun="tablePageListApi" endPage
       :otherParams="{ name: 'virtualTable' }" :autoRequest="true" @change="tableChange">
+    </VirtualTable> -->
+
+    <!-- 11. 外部筛选-适用于前端分页或者不分页的模式，因为后端分页的分页参数取决于后端 -->
+    <!-- <VirtualTable ref="virtualTable" :columns="columns" :apiRequestPromiseFun="tablePageListApi" endPage
+      :otherParams="{ name: 'virtualTable' }" :autoRequest="true"
+      :filterGridOptionsDataMethod="filterGridOptionsDataMethod" @change="tableChange">
+    </VirtualTable> -->
+    <VirtualTable ref="virtualTable" :columns="columns" :data="dataList" getDataListFromBodyKeysStr="data" frontPage
+      :filterGridOptionsDataMethod="filterGridOptionsDataMethod" @change="tableChange">
     </VirtualTable>
   </div>
 </template>
@@ -202,6 +212,7 @@ export default {
   },
   data() {
     return {
+      searchText: '',
       rowConfig: {
         useKey: true,
         keyField: 'uuid',
@@ -299,7 +310,15 @@ export default {
       ]
     };
   },
+  watch: {
+    searchText() {
+      this.$refs['virtualTable'].outerFilterUpdate();
+    }
+  },
   methods: {
+    filterGridOptionsDataMethod(item) {
+      return item.uuid.includes(this.searchText)
+    },
     footerMethod({ columns, data }) {
       return [
         columns.map(column => {
