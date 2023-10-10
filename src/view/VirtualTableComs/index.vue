@@ -165,7 +165,11 @@ export default {
           },
           fixed: "left"
         },
-        { field: "uuid", title: "字段名uuid" },
+        {
+          field: "uuid", title: "字段名uuid-EmwAmount", defaultSlotProps: { big: true }, slots: {
+            default: 'EmwAmount'
+          }
+        },
         {
           field: "name", title: "字段名name",
           // 自定义格式化渲染

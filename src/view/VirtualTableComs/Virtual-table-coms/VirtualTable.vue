@@ -7,8 +7,13 @@
       <template v-for="defaultName in defaultSlots" v-slot:[defaultName]="{ row, column, rowIndex, columnIndex }">
         <!-- 默认插槽空值处理 -->
         <template v-if="columns[columnIndex]?.slotDefaultType === 'default'">
-          <slot v-if="!tableCellEmpty(row[column.property])" :name="defaultName" :row="row" :column="column"
-            :rowIndex="rowIndex" :columnIndex="columnIndex" :cellValue="row[column.property]"></slot>
+          <template v-if="!tableCellEmpty(row[column.property])">
+            <EmwAmount v-if="defaultName === 'EmwAmount'" :key="`default_${defaultName}_EmwAmount`" slot="EmwAmount"
+              v-bind="{ value: row[column.property], ...columns[columnIndex].defaultSlotProps }">
+            </EmwAmount>
+            <slot v-else :name="defaultName" :row="row" :column="column" :rowIndex="rowIndex" :columnIndex="columnIndex"
+              :cellValue="row[column.property]"></slot>
+          </template>
           <span v-else :key="`default_${defaultName}_empty`">{{ '--' }}</span>
         </template>
         <!-- 如果为自定义插槽类型没有空值处理 -->
@@ -59,7 +64,24 @@ const splitStrByChar = (str, tag = '.') => {
 const tableCellEmpty = (v) => {
   return v === '' || v === undefined || v === null;
 }
+
+/**
+ * 为了让虚拟滚动表格更好适应项目
+ * 在虚拟滚动表格插槽中植入一些高频组件
+ * 配置插槽时直接用
+ * columns:{
+ *  defaultSlotProps:{...组件的props}
+ *  slots:{
+ *    default:'EmwAmount'
+ *  }
+ * }
+ */
+const CommonComNames = ['EmwAmount'];
+import EmwAmount from '../EmwAmount.vue'
 export default {
+  components: {
+    EmwAmount
+  },
   props: {
     /**
      * 外部传入展示数据
@@ -191,6 +213,15 @@ export default {
     filterGridOptionsDataMethod: {
       type: Function,
       default: () => true
+    },
+    /**
+     * 外部列表处理函数配置
+     * 有些接口返回数据不理想，需要表格自动处理成理想的数据列表
+     * 最好要求后端处理返回理想的数据，实在不行出此下策
+     */
+    mapGridOptionsDataListFactory: {
+      type: Function,
+      default: i => i
     }
   },
   watch: {
@@ -360,6 +391,10 @@ export default {
        * 空数据默认格式化
        */
       this.formatEmptyColumns();
+      /**
+       * 扩展通用组件自定义参数
+       */
+      this.addSlotPropsColumns();
     },
     formatEmptyColumns() {
       this.columns.forEach(col => {
@@ -382,11 +417,18 @@ export default {
           const type = col?.formatterType || 'default';
           const emptyF = ({ cellValue: v }) => tableCellEmpty(v) ? '--' : v;
 
-          if (typeof f === 'function' && type === 'default') {
+          if (typeof f === 'function') {
             // 如果定义了格式化，则对格式化函数进行一次包装
-            col.formatter = ({ ...p }) => {
-              const { cellValue: v } = p;
-              return tableCellEmpty(v) ? '--' : f({ ...p });
+            if (type === 'default') {
+              col.formatter = ({ ...p }) => {
+                const { cellValue: v } = p;
+                return tableCellEmpty(v) ? '--' : f({ ...p });
+              }
+            } else if (type === 'custom') {
+              // 如果是自定义直接返回
+              col.formatter = ({ ...p }) => {
+                return f({ ...p });
+              }
             }
           } else if (!f) {
             if (type !== 'options') {
@@ -468,6 +510,16 @@ export default {
         // }
       });
     },
+    addSlotPropsColumns(){
+      this.columns.forEach(col=>{
+        /**
+         * 如果配置有通用插槽组件的话，默认props为 defaultSlotProps
+         */
+        if(CommonComNames.includes(col?.slots?.default)){
+          col.defaultSlotProps = col?.defaultSlotProps || {}
+        }
+      })
+    },
     slotsFilter(slotType) {
       return this.columns.filter(i => i?.slots && i?.slots[slotType] && typeof i?.slots[slotType] === 'string').map(x => x?.slots[slotType]);
     },
@@ -494,7 +546,7 @@ export default {
     },
     tableListData(v) {
       const originList = Array.isArray(v) ? v : (getObjectByKeys(v, splitStrByChar(this.getDataListFromBodyKeysStr)) || []);
-      return originList.filter(this.filterGridOptionsDataMethod);
+      return originList.filter(this.filterGridOptionsDataMethod).map(this.mapGridOptionsDataListFactory);
     },
     resetTablePage(p = {}) {
       this.tablePage = {
