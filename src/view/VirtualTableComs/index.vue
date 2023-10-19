@@ -37,13 +37,13 @@
     </VirtualTable> -->
 
     <!-- 7. 插槽渲染 -->
-    <!-- <VirtualTable ref="virtualTable" :columns="columns" :apiRequestPromiseFun="tablePageListApi" endPage
+    <VirtualTable ref="virtualTable" :columns="columns" :apiRequestPromiseFun="tablePageListApi" endPage
       :otherParams="{ name: 'virtualTable' }" :autoRequest="true" :showFooter="true" :footerMethod="footerMethod"
       @change="tableChange">
       <template #cell-empty="data"> {{ data.row }} </template>
       <template #name-header="data"> {{ 'name' + data.columnIndex }} </template>
       <template #name-footer="data"> {{ 'footer>>' + JSON.stringify(Object.keys(data)) }} </template>
-    </VirtualTable> -->
+    </VirtualTable>
 
     <!-- 8. render渲染 -->
     <!-- 略... 查看 https://vxetable.cn/#/grid/api -->
@@ -71,9 +71,9 @@
       :otherParams="{ name: 'virtualTable' }" :autoRequest="true"
       :filterGridOptionsDataMethod="filterGridOptionsDataMethod" @change="tableChange">
     </VirtualTable> -->
-    <VirtualTable ref="virtualTable" :columns="columns" :data="dataList" getDataListFromBodyKeysStr="data" frontPage
+    <!-- <VirtualTable ref="virtualTable" :columns="columns" :data="dataList" getDataListFromBodyKeysStr="data" frontPage
       :filterGridOptionsDataMethod="filterGridOptionsDataMethod" @change="tableChange">
-    </VirtualTable>
+    </VirtualTable> -->
   </div>
 </template>
 

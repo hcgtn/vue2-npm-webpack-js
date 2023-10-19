@@ -510,12 +510,12 @@ export default {
         // }
       });
     },
-    addSlotPropsColumns(){
-      this.columns.forEach(col=>{
+    addSlotPropsColumns() {
+      this.columns.forEach(col => {
         /**
          * 如果配置有通用插槽组件的话，默认props为 defaultSlotProps
          */
-        if(CommonComNames.includes(col?.slots?.default)){
+        if (CommonComNames.includes(col?.slots?.default)) {
           col.defaultSlotProps = col?.defaultSlotProps || {}
         }
       })
@@ -531,18 +531,18 @@ export default {
         this.inerRequestData = await this.apiRequestPromiseFun(params);
         this.interRequestDataTableInit();
       } catch (e) {
-        this.resetTable();
+        this.resetTable(false);
         console.log(e);
       } finally {
         this.gridOptions.loading = false;
       }
     },
-    resetTable() {
+    resetTable(ifRequestTag = true) {
       this.gridOptions.data = [];
       this.inerRequestData = null;
       this.setLoading(false);
       this.resetTablePage();
-      this.autoRequest && this.getDataModal === 'inter_request_data' && this.requestList();
+      ifRequestTag && this.autoRequest && this.getDataModal === 'inter_request_data' && this.requestList();
     },
     tableListData(v) {
       const originList = Array.isArray(v) ? v : (getObjectByKeys(v, splitStrByChar(this.getDataListFromBodyKeysStr)) || []);

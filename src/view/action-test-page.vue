@@ -6,6 +6,7 @@
             <option value="test">测试</option>
             <option value="person1">Person1</option>
             <option value="person2">Person2</option>
+            <option value="serve">Serve</option>
         </select>
     </div>
 </template>

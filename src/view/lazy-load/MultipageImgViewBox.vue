@@ -4,6 +4,8 @@
       <img class="image-item" v-for="(img, index) in images" :key="sc(img) + index" :id="sc(img)" v-lazy="img"
         lazy="loading" />
     </div>
+
+    <iframe src="./xxx.html"></iframe>
     <a @click.prevent.stop="pre">上一页</a>
     第{{ num }}页
     <a @click.prevent.stop="next">下一页</a>

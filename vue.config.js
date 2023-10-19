@@ -30,16 +30,21 @@ module.exports = defineConfig({
           const rexp = /\/(.+)\/api/g;
           const env = rexp.exec(req.url)[1];
           console.log('env>>>>', env)
-          console.log('proxyList>>>>', proxyList)
+          console.log('proxyList>>>>', proxyList,req.url)
           return proxyList.find(i => i.name === env).ip;
         },
         ws: true,
         // 路径重写
-        pathRewrite: {
-          // 服务端改ip配置          
-          // '(.*)/api/': ''
-          // 客户端改ip配置,把多余的api去掉,保证访问正确的地址
-          '(.*)/api/': '' // 设置为 localhost: xxx/api/abc => www.xxx.com/abc 支持正则匹配
+        // pathRewrite: {
+        //   // 服务端改ip配置          
+        //   // '(.*)/api/': ''
+        //   // 客户端改ip配置,把多余的api去掉,保证访问正确的地址
+        //   '(.*)/api/': '' // 设置为 localhost: xxx/api/abc => www.xxx.com/abc 支持正则匹配
+        // },
+        pathRewrite:(path)=>{
+          const r = path.replace(/(.+api)?\/(.+)/g,'$2');
+          console.log('r>>>',r);
+          return r;
         }
       }
     },
