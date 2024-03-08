@@ -15,7 +15,7 @@ Vue.use(ViewUI);
 Vue.use(VXETable);
 // Vue.use(VueLazyload);
 // or with options
-const loadimage = require('./assets/logo.png');
+const loadimage = require('./assets/logo.png')
 const errorimage = require('./assets/logo.png');
 
 Vue.use(VueLazyload, {
@@ -45,11 +45,11 @@ new Vue({
  */
 const debounce = (fn, delay) => {
   let timer = null;
-  return function() {
+  return function () {
     const context = this;
     const args = arguments;
     clearTimeout(timer);
-    timer = setTimeout(function() {
+    timer = setTimeout(function () {
       fn.apply(context, args);
     }, delay);
   };
