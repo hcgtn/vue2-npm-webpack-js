@@ -7,7 +7,7 @@
 <script>
 import JSONEditor from './JSONEditor';
 export default {
-  name: 'NpmTest',
+  name: "NpmTest",
   components: {
     JSONEditor,
   },
