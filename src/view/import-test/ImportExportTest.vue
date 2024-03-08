@@ -18,7 +18,7 @@
 
 // lodash 引入
 import {get} from 'lodash';
-console.log(get({ a: 'aaaa' }, 'a', 'none'));
+console.log(get({a: 'aaaa'}, 'a', 'none'));
 
 export default {
   name: 'ImportExportTest',
@@ -31,8 +31,8 @@ export default {
   },
   methods: {
 
-  }
-}
+  },
+};
 </script>
 
 <style scoped></style>

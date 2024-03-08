@@ -4,25 +4,24 @@
         <HelloWorld msg="Welcome to Your Vue.js App" />
     </div>
 </template>
-  
+
 <script>
 import HelloWorld from '../components/hello-world';
 export default {
-    name: 'HomePage',
-    components: {
-        HelloWorld
-    },
-    props: {
+  name: 'HomePage',
+  components: {
+    HelloWorld,
+  },
+  props: {
 
-    },
-    mounted() {
-    }
-}
+  },
+  mounted() {
+  },
+};
 </script>
-  
+
 <style scoped>
     .app{
         display: flex;
     }
 </style>
-  

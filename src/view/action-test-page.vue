@@ -10,28 +10,27 @@
         </select>
     </div>
 </template>
-  
+
 <script>
 export default {
-    name: 'ActionTestPage',
-    components: {
-    },
-    props: {
+  name: 'ActionTestPage',
+  components: {
+  },
+  props: {
 
+  },
+  mounted() {
+  },
+  methods: {
+    act() {
+      this.$HttpTool.post('xxx/', {name: 'abc'});
+      console.log('click action');
     },
-    mounted() {
+    changeEnv($event) {
+      this.$HttpTool.changeBaseUrl($event.target.value);
     },
-    methods: {
-        act() {
-            this.$HttpTool.post('xxx/', { name: 'abc' });
-            console.log('click action');
-        },
-        changeEnv($event) {
-            this.$HttpTool.changeBaseUrl($event.target.value);
-        },
-    }
-}
+  },
+};
 </script>
-  
+
 <style scoped></style>
-  

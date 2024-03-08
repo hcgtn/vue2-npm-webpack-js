@@ -1,32 +1,32 @@
-export function add(){
+export function add() {
   return 1;
 }
 
-export function exc(){
+export function exc() {
   return -1;
 }
 
 export default {
-  num:12,
-  age(){
-    return 13
-  }
+  num: 12,
+  age() {
+    return 13;
+  },
+};
+
+export const obj = {
+  a: 1, b: 2,
+};
+
+export function aaa() {
+  return 'aaa';
 }
 
-export let obj = {
-  a:1,b:2
-}
-
-export function aaa(){
-  return 'aaa'
-}
-
-export function bbb(){
+export function bbb() {
   return 'bbb';
 }
 
-export let x = {
+export const x = {
   aaa,
-  bbb
-}
-export let ccc = 9;
+  bbb,
+};
+export const ccc = 9;

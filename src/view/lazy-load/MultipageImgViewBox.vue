@@ -13,7 +13,7 @@
 </template>
 
 <script>
-let sc = s => (s || '').replace(/[:/.]/g, '');
+const sc = (s) => (s || '').replace(/[:/.]/g, '');
 export default {
   name: 'MultipageImgViewBox',
   components: {
@@ -21,15 +21,15 @@ export default {
   props: {
     images: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
       num: 0,
       account: 0,
       sc,
-    }
+    };
   },
   created() {
     if (this.images?.length) this.num = 1;
@@ -37,13 +37,13 @@ export default {
   computed: {
     t_src() {
       return sc(this.images[this.num-1]);
-    }
+    },
   },
   methods: {
     pre() {
       this.account--;
       if (this.account <= 0) this.account = 0;
-      this.num = this.account % this.images?.length + 1
+      this.num = this.account % this.images?.length + 1;
       this.goToEl();
     },
     next() {
@@ -52,20 +52,20 @@ export default {
         return;
       }
       this.account++;
-      this.num = this.account % this.images?.length + 1
+      this.num = this.account % this.images?.length + 1;
       this.goToEl();
     },
     goToEl() {
-      var el = document.getElementById(this.t_src);
+      const el = document.getElementById(this.t_src);
       el && el.scrollIntoView(
         {
-          behavior: "smooth",  // 平滑过渡
-          block: "start"  // 上边框与视窗顶部平齐。默认值
-        }
+          behavior: 'smooth', // 平滑过渡
+          block: 'start', // 上边框与视窗顶部平齐。默认值
+        },
       );
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style  scoped>
@@ -102,4 +102,3 @@ img[lazy=error] {
 
 }
 </style>
-  

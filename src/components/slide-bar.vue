@@ -9,8 +9,8 @@
 export default {
   name: 'SlideBar',
   mounted() {
-  }
-}
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -10,8 +10,8 @@
 <script>
 // import math from 'mathjs' ;
 import {
-  add
-} from 'mathjs'
+  add,
+} from 'mathjs';
 export default {
   name: 'MathTest',
   components: {
@@ -20,26 +20,25 @@ export default {
 
   },
   mounted() {
-
     // const a = math.add(1.2,2.);
-    console.log('a>>>>', add(1.2, 1.3))
+    console.log('a>>>>', add(1.2, 1.3));
   },
   data() {
     return {
       res: '',
-      a:'',
-      b:''
+      a: '',
+      b: '',
     };
   },
   methods: {
     cal() {
-      console.log(add(this.a,this.b))
-    
-      this.res = add(this.a , this.b)
-    }
+      console.log(add(this.a, this.b));
 
-  }
-}
+      this.res = add(this.a, this.b);
+    },
+
+  },
+};
 </script>
 
 <style scoped></style>

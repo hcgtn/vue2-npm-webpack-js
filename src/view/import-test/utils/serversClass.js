@@ -9,17 +9,17 @@ class Server {
 
 
   obj = {
-    a: 1, b: 2
-  }
+    a: 1, b: 2,
+  };
 
   aaa() {
-    return 'aaa'
+    return 'aaa';
   }
   bbb() {
     return 'bbb';
   }
 
- 
+
   ccc = 9;
 }
 

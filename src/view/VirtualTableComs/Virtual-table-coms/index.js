@@ -1,2 +1,2 @@
-import VirtualTable from './VirtualTable.vue'
-export default VirtualTable 
+import VirtualTable from './VirtualTable.vue';
+export default VirtualTable;

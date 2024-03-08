@@ -3,28 +3,28 @@
         <JSONEditor class="jsoneditor-warp" @change="jsonEiditorChange" />
     </div>
 </template>
-  
+
 <script>
 import JSONEditor from './JSONEditor';
 export default {
-    name: 'NpmTest',
-    components: {
-        JSONEditor
-    },
-    props: {
+  name: 'NpmTest',
+  components: {
+    JSONEditor,
+  },
+  props: {
 
-    },
-    mounted() {
+  },
+  mounted() {
 
+  },
+  methods: {
+    jsonEiditorChange(v) {
+      console.log('jsonEiditorChange>>>>>', v);
     },
-    methods: {
-        jsonEiditorChange(v) {
-            console.log('jsonEiditorChange>>>>>', v)
-        }
-    }
-}
+  },
+};
 </script>
-  
+
 <style scoped lang="less">
 .npm-pack-test {
     .jsoneditor-warp{
@@ -33,4 +33,3 @@ export default {
     }
 }
 </style>
-  

@@ -11,14 +11,14 @@ export default {
   props: {
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     big: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-}
+};
 </script>
 
 <style scoped>

@@ -12,15 +12,15 @@ import SlideBar from '@/components/slide-bar.vue';
 export default {
   name: 'App',
   components: {
-    SlideBar
+    SlideBar,
   },
   data() {
     return {
-    }
+    };
   },
   mounted() {
-  }
-}
+  },
+};
 </script>
 
 <style>
