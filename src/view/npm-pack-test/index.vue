@@ -1,7 +1,7 @@
 <template>
-    <div class="npm-pack-test">
-        <JSONEditor class="jsoneditor-warp" @change="jsonEiditorChange" />
-    </div>
+  <div class="npm-pack-test">
+    <JSONEditor class="jsoneditor-warp" @change="jsonEiditorChange" />
+  </div>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     jsonEiditorChange(v) {
-      console.log('jsonEiditorChange>>>>>', v); 
+      console.log('jsonEiditorChange>>>>>', v);
     },
   },
 };
@@ -27,9 +27,9 @@ export default {
 
 <style scoped lang="less">
 .npm-pack-test {
-    .jsoneditor-warp{
-        height: 200px;
-        width:500px
-    }
+  .jsoneditor-warp {
+    height: 200px;
+    width: 500px
+  }
 }
 </style>
