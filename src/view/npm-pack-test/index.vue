@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     jsonEiditorChange(v) {
-      console.log('jsonEiditorChange>>>>>', v);
+      console.log('jditorChange>>>>>', v);
     },
   },
 };
